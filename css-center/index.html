@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<style>
+			.table{
+				width: 100%;
+				height: 300px;
+			}
+			.container{
+				position: relative;
+				width: 100%;
+				height: 300px;
+				border: 1px solid #0080ff;
+			}
+			.c-1{
+				line-height: 300px;
+				text-align: center;
+			}
+			.c-2{
+				text-align: center;
+			}
+			.c-3{
+				display: table-cell;
+				text-align: center;
+				vertical-align: middle;
+				width: 500px;
+			}
+			.c-4{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.c-5{
+				display: grid;
+			}
+			.box{
+				width: 100px;
+				height: 100px;
+				background: #ff0000;
+				color: #FFFFFF;
+				font-size: 6px;
+				text-align: center;
+			}
+			.s-1{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -50px;
+				margin-top: -50px;
+			}
+			.s-2{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+			}
+			.s-3{
+				position: absolute;;
+				top: calc(50% - 50px);
+				left: calc(50% - 50px);
+			}
+			.s-4{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.s-5{
+				display: inline-block;
+				vertical-align: middle;
+			}
+			.s-6{
+				display: inline-block;
+			}
+			.s-7{
+				display: inline-block;
+			}
+			.s-8{
+				align-self: center;
+				justify-self: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="box s-1">
+				<p>绝对定位＋外边距</p>
+			</div>
+		</div>
+		<div class="container">
+			<div class="box s-2">
+				<p>绝对定位tlrb = 0</p>
+				<p>外边距auto</p>
+			</div>
+		</div>
+		<div class="container">
+			<div class="box s-3">
+				<p>calc计算属性</p>
+			</div>
+		</div>
+		<div class="container">
+			<div class="box s-4">
+				<p>绝对定位</p>
+				<p>transform</p>
+			</div>
+		</div>
+		<div class="container c-1">
+			<div class="box s-5">
+				<p>line-height</p>
+				<p>text-align</p>
+				<p>inline-block</p>
+				<p>vertical-align</p>
+			</div>
+		</div>
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class="container c-2">
+						<div class="box s-6">
+							<p>table</p>
+							<p>inline-block</p>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="container c-3">
+			<div class="box s-7">
+				<p>display: table-cell</p>
+			</div>
+		</div>
+		<div class="container c-4">
+			<div class="box">
+				<p>flex</p>
+			</div>
+		</div>
+		<div class="container c-5">
+			<div class="box s-8">
+				<p>grid</p>
+			</div>
+		</div>
+	</body>
+</html>
