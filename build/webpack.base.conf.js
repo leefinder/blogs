@@ -1,20 +1,24 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const root = require('../config/entries');
 const resolve = (dir) => {
     return path.resolve(__dirname, '..', dir)
 }
+
 const entry = () => {
     const entries = {}
-    const root = [
-        {
-            name: 'promise',
-            path: 'js-think/promise/index.js'
-        }
-    ]
     root.forEach(item => {
         entries[item.name] = resolve(item.path);
     })
     return entries;
+}
+const htmlPlugins = () => {
+    return root.map(item => new HtmlWebpackPlugin({
+        template: resolve('index.html'),
+        filename: `${item.name}.html`,
+        chunks: [item.name],
+        inject: true
+    }))
 }
 const config = {
     entry,
@@ -24,10 +28,7 @@ const config = {
         publicPath: '/'
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: resolve('./index.html'),
-            filename: 'index.html'
-        })
+        ...htmlPlugins()
     ]
 }
 module.exports = config;
