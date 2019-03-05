@@ -37,8 +37,8 @@ const config = {
     optimization: {
         minimize: false,
         splitChunks: {
-            chunks: "all",  //  async
-            minSize: 274,
+            chunks: "async",  //  async
+            minSize: 400,
             automaticNameDelimiter: '~',
         }
     }
