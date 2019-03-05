@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const root = require('../config/entries');
 const resolve = (dir) => {
     return path.resolve(__dirname, '..', dir)
@@ -28,7 +29,18 @@ const config = {
         publicPath: '/'
     },
     plugins: [
-        ...htmlPlugins()
-    ]
+        ...htmlPlugins(),
+        new CleanWebpackPlugin([resolve('dist')], {
+            root: resolve('../')
+        })
+    ],
+    optimization: {
+        minimize: false,
+        splitChunks: {
+            chunks: "all",  //  async
+            minSize: 274,
+            automaticNameDelimiter: '~',
+        }
+    }
 }
 module.exports = config;
