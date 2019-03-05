@@ -18,6 +18,7 @@ optimization: {
     }
 }
 ```
+- minChunks 在分割之前，这个代码块最小应该被引用的次数(译注：保证代码块复用性，默认配置的策略是不需要多次引用也可以被分割)
 - maxSize 使用maxSize告诉webpack将大于maxSize的块拆分成更小的部分。拆解后的文件带下(minSize < file < maxSize)。这样做的目的是避免单个文件过大，增加请求数量，达到减少下载时间的目的。
 - chunks 
     1. async 表示对动态（异步）导入的模块进行分离。
@@ -40,4 +41,5 @@ optimization: {
     }
 ```
 - maxInitialRequests 入口点处的最大并行请求数，每一个入口文件打包完成后最多能有多少个模块组成。
+- maxAsyncRequests 按需加载时候最大的并行请求数。
 
