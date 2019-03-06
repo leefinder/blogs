@@ -15,10 +15,12 @@ const entry = () => {
 }
 const htmlPlugins = () => {
     return root.map(item => new HtmlWebpackPlugin({
+        title: `${item.name}`,
         template: resolve('index.html'),
         filename: `${item.name}.html`,
         chunks: [item.name],
-        inject: true
+        inject: true,
+        paths: root
     }))
 }
 const config = {
@@ -30,6 +32,12 @@ const config = {
     },
     plugins: [
         ...htmlPlugins(),
+        new HtmlWebpackPlugin({
+            template: resolve('index.html'),
+            filename: `index.html`,
+            paths: root,
+            inject: false,
+        }),
         new CleanWebpackPlugin([resolve('dist')], {
             root: resolve('../')
         })

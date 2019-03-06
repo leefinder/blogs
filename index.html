@@ -7,6 +7,12 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-    
+    <% for (var i in htmlWebpackPlugin.options.paths) { %>
+        <p>
+            <a href="/<%= htmlWebpackPlugin.options.paths[i].name %>.html">
+                <%= htmlWebpackPlugin.options.paths[i].name %>
+            </a>
+        </p>
+    <% } %>
 </body>
 </html>
