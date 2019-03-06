@@ -19,9 +19,8 @@ module.exports = [
         name: 'custom3',
         path: 'src/webpack/split-chunks/custom3/index.js'
     },
-    // {
-    //     name: 'splitChunks',
-    //     path: 'src/webpack/split-chunks/index.js'
-    // }
-
+    {
+        name: 'newFunction',
+        path: 'src/js-think/new-function/index.js'
+    }
 ]
