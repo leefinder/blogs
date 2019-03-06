@@ -12,3 +12,4 @@ function A(a) {
 const a = create(A, 1);
 console.log(a.__proto__ === A.prototype);
 console.log(a);
+

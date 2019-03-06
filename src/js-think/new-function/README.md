@@ -26,3 +26,31 @@ c.apply(obj, arguments)
 ```
 return typeof r === 'object' ? r : obj;
 ```
+## instanceof 
+
+- function A() {}
+- let a = new A()
+- a instanceof A   =>  true
+```
+function instanceof (l, r) {
+    if (l === null) {
+        return false;
+    } else {
+        return l.__proto__ === r.prototype
+    }
+}
+```
+
+## 
+```
+function Parent (name) {
+    this.name = name;
+}   
+Parent.prototype.getName = function () {
+    console.log(this.name);
+}
+function Child (name) {
+    Parent.call(this, name);
+}   
+Child.prototype = Object.create(Parent.prototype);
+```

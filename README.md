@@ -3,6 +3,8 @@
 
 - [视觉差](https://github.com/lidong9211/blogs/tree/master/src/html-css/parallax-scroll)
 
+- [new 构造函数](https://github.com/lidong9211/blogs/tree/master/src/js-think/new-function)
+
 - [bind实现](https://github.com/lidong9211/blogs/tree/master/src/js-think/bind)
 
 - [防抖节流](https://github.com/lidong9211/blogs/tree/master/src/js-think/debounce-throttle)
@@ -14,3 +16,4 @@
 - [koa源码走读](https://github.com/lidong9211/blogs/tree/master/src/node/koa)
 
 - [split-chunks-plugin应用](https://github.com/lidong9211/blogs/tree/master/src/webpack/split-chunks)
+
