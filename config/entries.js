@@ -22,5 +22,9 @@ module.exports = [
     {
         name: 'newFunction',
         path: 'src/js-think/new-function/index.js'
+    },
+    {
+        name: 'virtualDom',
+        path: 'src/js-think/virtual-dom/index.js'
     }
 ]

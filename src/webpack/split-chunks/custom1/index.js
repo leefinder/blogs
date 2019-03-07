@@ -9,6 +9,6 @@ export default {
             console.log(d)
         })
         console.log('Custom1');
-        console.log(Apple, HuaWei);
+        console.log(HuaWei);
     }
 }

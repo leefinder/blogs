@@ -17,3 +17,8 @@
 
 - [split-chunks-plugin应用](https://github.com/lidong9211/blogs/tree/master/src/webpack/split-chunks)
 
+> 工程运行
+
+1. npm install
+2. npm run dev
+3. 首页点击跳转， F12 
