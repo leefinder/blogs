@@ -26,5 +26,9 @@ module.exports = [
     {
         name: 'virtualDom',
         path: 'src/js-think/virtual-dom/index.js'
+    },
+    {
+        name: 'mvvm',
+        path: 'src/vue/mvvm/index.js'
     }
 ]
