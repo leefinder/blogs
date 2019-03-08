@@ -17,6 +17,8 @@
 
 - [split-chunks-plugin应用](https://github.com/lidong9211/blogs/tree/master/src/webpack/split-chunks)
 
+- [Vue 双向绑定 数组劫持](https://github.com/lidong9211/blogs/tree/master/src/vue/mvvm)
+
 > 工程运行
 
 1. npm install
