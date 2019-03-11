@@ -1,14 +1,14 @@
-var def = (target, key, fn) => {
+const def = (target, key, fn) => {
     Object.defineProperty(target, key, {
         value: fn,
         enumerable: true,
         configurable: true
     })
 }
-    var arrayProto = Array.prototype;
-    var arrayMethods = Object.create(arrayProto);
+const arrayProto = Array.prototype;
+const arrayMethods = Object.create(arrayProto);
 
-    var methodsToPatch = [
+const methodsToPatch = [
     'push',
     'pop',
     'shift',
@@ -16,34 +16,34 @@ var def = (target, key, fn) => {
     'splice',
     'sort',
     'reverse'
-    ];
+];
 
-    /**
-     * Intercept mutating methods and emit events
-     */
-    methodsToPatch.forEach(function (method) {
-        // cache original method
-        var original = arrayProto[method];
-        def(arrayMethods, method, function mutator () {
-            var args = [], len = arguments.length;
-            while ( len-- ) args[ len ] = arguments[ len ];
+/**
+ * Intercept mutating methods and emit events
+ */
+methodsToPatch.forEach(function (method) {
+    // cache original method
+    const original = arrayProto[method];
+    def(arrayMethods, method, function mutator () {
+        var args = [], len = arguments.length;
+        while ( len-- ) args[ len ] = arguments[ len ];
 
-            var result = original.apply(this, args);
-            var inserted;
-            switch (method) {
-                case 'push':
-                case 'unshift':
-                    inserted = args;
-                    break
-                case 'splice':
-                    inserted = args.slice(2);
-                    break
-            }
-            console.log('watch array success')
-            // notify change
-            return result
-        });
+        const result = original.apply(this, args);
+        let inserted;
+        switch (method) {
+            case 'push':
+            case 'unshift':
+                inserted = args;
+                break
+            case 'splice':
+                inserted = args.slice(2);
+                break
+        }
+        console.log('watch array success')
+        // notify change
+        return result
     });
+});
 class Vue {
     constructor (opt) {
         Object.assign(this, this.init(opt))
@@ -51,7 +51,48 @@ class Vue {
         Object.keys(this.computed).forEach(item => {
             this.computed[item] = this.computed[item].call(this)
         })
-        new Observer(this.data)
+        new Observer(this.data);
+        this.render(opt.template);
+    }
+    render(temp) {
+        const dom = document.createElement('div');
+        const frag = document.createDocumentFragment();
+        dom.innerHTML = temp;
+        [...dom.childNodes].forEach(d => {
+            if (d.nodeType === 1) {
+                const attrs = d.getAttributeNames();
+                if (attrs.includes('v-model')) {
+                    const name = d.attributes['v-model'].value;
+                    const watcher = new Watcher(this.data, name, (v) => {
+                        d.value = v;
+                    })
+                    d.addEventListener('input', (e) => {
+                        const { data } = this;
+                        data[name] = e.target.value;
+                    })
+                } else {
+                    const t = d.textContent;
+                    const dfR = /\{\{((?:.|\r?\n)+?)\}\}/g;
+                    const df = dfR.exec(t);
+                    if (df) {
+                        const watcher = new Watcher(this.data, df[1], (v) => {
+                            d.textContent = t.replace(dfR, v);
+                        })
+                    }
+                }
+            } else if (d.nodeType === 3) {
+                const t = d.textContent;
+                const dfR = /\{\{((?:.|\r?\n)+?)\}\}/g;
+                const df = dfR.exec(t);
+                if (df) {
+                    const watcher = new Watcher(this.data, df[1], (v) => {
+                        d.textContent = t.replace(dfR, v);
+                    })
+                }
+            }
+        })
+        frag.appendChild(dom);
+        document.body.appendChild(frag);
     }
     init(opt) {
         let This = {}
@@ -97,21 +138,63 @@ class Observer {
     }
     defineReactive(data, key, val) {
         this.observe(val); // 递归遍历所有子属性
+        let dp = new Dep();
         Object.defineProperty(data, key, {
             enumerable: true,
             configurable: true,
             get: function() {
+                if (Dep.target) {
+                    dp.addSubs(Dep.target);
+                }
                 return val;
             },
             set: function(newVal) {
                 val = newVal;
+                dp.notify();
                 console.log('属性' + key + '已经被监听了，现在值为：“' + newVal.toString() + '”');
             }
         });
     }
 }
+class Dep {
+    constructor() {
+        this.subs = [];
+    }
+    addSubs(subs) {
+        this.subs.push(subs);
+    }
+    notify() {
+        const { subs } = this;
+        subs.forEach(s => {
+            s.update();
+        })
+    }
+}
+Dep.target = null;
+class Watcher {
+    constructor(vm, key, cb) {
+        this.vm = vm;
+        this.key = key;
+        this.oldV = '';
+        this.cb = cb;
+        this.init();
+    }
+    init() {
+        Dep.target = this;
+        const { vm, key } = this;
+        this.oldV = vm[key];
+        Dep.target = null;
+    }
+    update() {
+        const { vm, key, oldV } = this;
+        if (oldV !== vm[key]) {
+            this.cb(vm[key]);
+        }
+    }
+}
 const app = new Vue({
     el: '#app',
+    template: `<input v-model="a"/><span>{{a}}</span>{{a}}{}`,
     data() {
         return {
             a: 1,
