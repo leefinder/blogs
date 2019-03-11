@@ -19,6 +19,8 @@
 
 - [Vue 双向绑定 数组劫持](https://github.com/lidong9211/blogs/tree/master/src/vue/mvvm)
 
+- [Vue template compile](https://github.com/lidong9211/blogs/tree/master/src/vue/template-compile)
+
 > 工程运行
 
 1. npm install

@@ -34,5 +34,9 @@ module.exports = [
     {
         name: 'koa',
         path: 'src/node/koa/index.js'
+    },
+    {
+        name: 'templateCompile',
+        path: 'src/vue/template-compile/index.js'
     }
 ]
