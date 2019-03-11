@@ -74,6 +74,7 @@ class Vue {
                     const t = d.textContent;
                     const dfR = /\{\{((?:.|\r?\n)+?)\}\}/g;
                     const df = dfR.exec(t);
+                    d.textContent = this.data[df[1]];
                     if (df) {
                         const watcher = new Watcher(this.data, df[1], (v) => {
                             d.textContent = t.replace(dfR, v);
@@ -85,6 +86,7 @@ class Vue {
                 const dfR = /\{\{((?:.|\r?\n)+?)\}\}/g;
                 const df = dfR.exec(t);
                 if (df) {
+                    d.textContent = this.data[df[1]];
                     const watcher = new Watcher(this.data, df[1], (v) => {
                         d.textContent = t.replace(dfR, v);
                     })
@@ -188,13 +190,14 @@ class Watcher {
     update() {
         const { vm, key, oldV } = this;
         if (oldV !== vm[key]) {
+            console.log(vm[key], 'update')
             this.cb(vm[key]);
         }
     }
 }
 const app = new Vue({
     el: '#app',
-    template: `<input v-model="a"/><span>{{a}}</span>{{a}}{}`,
+    template: `<input v-model="a"/><span>{{a}}</span>{{a}}{}<p>{{c}}</p>`,
     data() {
         return {
             a: 1,

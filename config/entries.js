@@ -30,5 +30,9 @@ module.exports = [
     {
         name: 'mvvm',
         path: 'src/vue/mvvm/index.js'
+    },
+    {
+        name: 'koa',
+        path: 'src/node/koa/index.js'
     }
 ]
