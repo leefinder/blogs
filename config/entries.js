@@ -1,5 +1,9 @@
 module.exports = [
     {
+        name: 'bindCallApply',
+        path: 'src/js-think/bind-call-apply/index.js'
+    },
+    {
         name: 'promise',
         path: 'src/js-think/promise/index.js'
     }, 
@@ -38,5 +42,10 @@ module.exports = [
     {
         name: 'templateCompile',
         path: 'src/vue/template-compile/index.js'
+    },
+    {
+        name: 'sudoku',
+        path: 'src/play/sudoku/index.js',
+        template: 'vue.html'
     }
 ]

@@ -19,7 +19,6 @@ function compile(tmpl) {
   // 根据不同的模式，进行不同的处理
   function commit() {
     // 库：表示current
-
     if (
       mode === MODE_TEXT &&
       (buffer = buffer.replace(/^\s*\n\s*|\s*\n\s*$/g, ""))
@@ -45,9 +44,9 @@ function compile(tmpl) {
     // 处理后，不再保存之前的遍历字符
     buffer = "";
   }
-
+  console.log([...tmpl]);
   // 解构字符串，变成一个个字符
-  [...tmpl].forEach(char => {
+  [...tmpl].forEach((char, index) => {
     // 如果当前处于普通模式
     if (mode === MODE_TEXT) {
       // 解析到<
@@ -67,7 +66,6 @@ function compile(tmpl) {
       }
     } else if (quote) {
       // 表示已解析到"或'字符, 但还没有遇到终止，表示这个属性值还没结束
-
       if (char === quote) {
         // 遇到终止
         quote = ""; // 重置
@@ -124,14 +122,9 @@ function compile(tmpl) {
 
   return current.length > 2 ? current.slice(1) : current[1];
 }
-const template = `
-<div class="container">
-  <h1 class="h1">
-    Hello World/
-  </h1>
-  <br />
-</div>
-`;
+const template = `123 <div class="container">{{title}}
+    <p></p>
+</div>`;
 
 console.log(compile(template));
 // https://maczyt.github.io/2019/03/02/%E5%A6%82%E4%BD%95%E8%A7%A3%E6%9E%90template%E6%88%90VNODE/#VNode-%E7%BB%93%E6%9E%84

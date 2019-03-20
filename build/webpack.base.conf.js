@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const root = require('../config/entries');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 const resolve = (dir) => {
     return path.resolve(__dirname, '..', dir)
 }
@@ -16,7 +18,7 @@ const entry = () => {
 const htmlPlugins = () => {
     return root.map(item => new HtmlWebpackPlugin({
         title: `${item.name}`,
-        template: resolve('index.html'),
+        template: resolve(`${item.template ? item.template : 'index.html'}`),
         filename: `${item.name}.html`,
         chunks: [item.name],
         inject: true,
@@ -30,6 +32,32 @@ const config = {
         filename: '[name].js',
         publicPath: '/'
     },
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.less$/,
+                loader: 'style-loader!css-loader!less-loader'
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+        }
+    },
     plugins: [
         ...htmlPlugins(),
         new HtmlWebpackPlugin({
@@ -40,7 +68,8 @@ const config = {
         }),
         new CleanWebpackPlugin([resolve('dist')], {
             root: resolve('../')
-        })
+        }),
+        new VueLoaderPlugin()
     ],
     optimization: {
         minimize: false,
