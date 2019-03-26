@@ -5,7 +5,7 @@
 
 - [new 构造函数](https://github.com/lidong9211/blogs/tree/master/src/js-think/new-function)
 
-- [bind实现](https://github.com/lidong9211/blogs/tree/master/src/js-think/bind)
+- [bind实现](https://github.com/lidong9211/blogs/tree/master/src/js-think/bind-call-apply)
 
 - [防抖节流](https://github.com/lidong9211/blogs/tree/master/src/js-think/debounce-throttle)
 
