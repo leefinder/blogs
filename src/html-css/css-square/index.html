@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Square</title>
+    <style>
+        .content-square{
+            width: 500px;
+        }
+        .square-1{
+            width: 50%;
+            padding-bottom: 50%;
+            border: 1px solid #0080ff;
+        }
+        .square-2{
+            width: 50%;
+            border: 1px solid #ff00ff;
+        }
+        .square-2::before{
+            content: " ";
+            display: block;
+            padding-bottom: 100%;
+        }
+        .content-rect{
+        }
+        .rect-1{
+            width: 30vw;
+            height: 10vw;
+            border: 1px solid #ff00ff;
+        }
+        .rect-2{
+            width: 100%;
+            padding-bottom: 30%;
+            border: 1px solid greenyellow
+        }
+    </style>
+</head>
+<body>
+    <div class="content-square">
+        <div class="square-1"></div>
+        <div class="square-2"></div>
+    </div>
+    <div class="content-rect">
+        <div class="rect-1"></div>
+        <div class="rect-2"></div>
+    </div>
+</body>
+</html>
