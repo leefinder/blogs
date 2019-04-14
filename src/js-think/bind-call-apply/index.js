@@ -91,6 +91,7 @@ const mc = (c, next) => {
         if (i < index) {
           return;
         }
+        index = i;
         let f = middlerware[i];
         f = i === middlerware.length ? next : f;
         if (!f) return Promise.resolve() // 执行到最后resolve出来
