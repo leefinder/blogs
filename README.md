@@ -5,7 +5,7 @@
 
 - [new 构造函数](https://github.com/leefinder/blogs/tree/master/src/js-think/new-function)
 
-- [javascript设计模式](https://github.com/leefinder/blogs/tree/master/src/js-think/desin-mode)
+- [javascript设计模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode)
 
 - [bind实现](https://github.com/leefinder/blogs/tree/master/src/js-think/bind-call-apply)
 
