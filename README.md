@@ -1,25 +1,27 @@
 ## Lee-Finder的前端记录仪
-- [垂直居中](https://github.com/lidong9211/blogs/tree/master/src/html-css/css-center)
+- [垂直居中](https://github.com/leefinder/blogs/src/html-css/css-center)
 
-- [视觉差](https://github.com/lidong9211/blogs/tree/master/src/html-css/parallax-scroll)
+- [视觉差](https://github.com/leefinder/blogs/src/html-css/parallax-scroll)
 
-- [new 构造函数](https://github.com/lidong9211/blogs/tree/master/src/js-think/new-function)
+- [new 构造函数](https://github.com/leefinder/blogs/src/js-think/new-function)
 
-- [bind实现](https://github.com/lidong9211/blogs/tree/master/src/js-think/bind-call-apply)
+- [javascript设计模式](https://github.com/leefinder/blogs/src/js-think/desin-mode)
 
-- [防抖节流](https://github.com/lidong9211/blogs/tree/master/src/js-think/debounce-throttle)
+- [bind实现](https://github.com/leefinder/blogs/src/js-think/bind-call-apply)
 
-- [promise](https://github.com/lidong9211/blogs/tree/master/src/js-think/promise)
+- [防抖节流](https://github.com/leefinder/blogs/src/js-think/debounce-throttle)
 
-- [小程序setData优化](https://github.com/lidong9211/blogs/tree/master/src/mini-app/setData-throttle)
+- [promise](https://github.com/leefinder/blogs/src/js-think/promise)
 
-- [koa源码走读](https://github.com/lidong9211/blogs/tree/master/src/node/koa)
+- [小程序setData优化](https://github.com/leefinder/blogs/src/mini-app/setData-throttle)
 
-- [split-chunks-plugin应用](https://github.com/lidong9211/blogs/tree/master/src/webpack/split-chunks)
+- [koa源码走读](https://github.com/leefinder/blogs/src/node/koa)
 
-- [Vue 双向绑定 数组劫持](https://github.com/lidong9211/blogs/tree/master/src/vue/mvvm)
+- [split-chunks-plugin应用](https://github.com/leefinder/blogs/src/webpack/split-chunks)
 
-- [Vue template compile](https://github.com/lidong9211/blogs/tree/master/src/vue/template-compile)
+- [Vue 双向绑定 数组劫持](https://github.com/leefinder/blogs/src/vue/mvvm)
+
+- [Vue template compile](https://github.com/lidong9211/blogs/src/vue/template-compile)
 
 > 工程运行
 
