@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lmr</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .c-flex{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            box-sizing: border-box;
+        }
+        .c-flex .left{
+            background: red;
+            flex: 1
+        }
+        .c-flex .content{
+            background: blue;
+            width: 400px;
+        }
+        .c-flex .right{
+            background: green;
+            flex: 2;
+        }
+        .c-left-fix{
+            padding-left: 400px;
+            width: 100vw;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .c-left-fix .left{
+            position: absolute;
+            left: 0;
+            width: 400px;
+            height: 100%;
+            background: red;
+        }
+        .c-left-fix .content{
+            width: 100%;
+            height: 100%;
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="c-flex">
+        <div class="left"></div>
+        <div class="content"></div>
+        <div class="right"></div>
+    </div>
+    <div class="c-left-fix">
+        <div class="left"></div>
+        <div class="content"></div>
+    </div>
+</body>
+</html>

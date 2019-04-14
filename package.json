@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lidong9211/blogs.git"
+    "url": "git+https://github.com/leefinder/blogs.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lidong9211/blogs/issues"
+    "url": "https://github.com/leefinder/blogs/issues"
   },
-  "homepage": "https://github.com/lidong9211/blogs#readme",
+  "homepage": "https://github.com/leefinder/blogs#readme",
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
