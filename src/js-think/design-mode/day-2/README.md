@@ -42,3 +42,33 @@ const Person = function (name, age, from) {
     }
 }
 ```
+
+> 聊一聊继承
+
+- 构造函数类继承
+```
+function Parent () {
+    this.parent = 'parent';
+}
+Parent.prototype.setAge = function (n) {
+    return n;
+}
+// 实例化Parent 的形式 会把 非原型链上的属性 继承到 子类的原型上
+
+function Child1 () {
+    this.child = 'child';
+}
+Child1.prototype = new Parent();
+Child1.prototype.setId= function (d) {
+    return d;
+}
+// Object.create
+function Child2 () {
+    this.child = 'child';
+}
+Child2.prototype = Object.create(Parent.prototype);
+Child2.prototype.constructor = Child2;
+Child2.prototype.setId = function (d) {
+    return d;
+}
+```
