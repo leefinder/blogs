@@ -23,14 +23,21 @@ p1.addMethods('like', function (s) {
 
 ### 抽象工厂方法
 ```
+// 抽象工厂方法
 const Factory = function (subType, superType) {
+    // 判断抽象工厂中是否有该抽象对象
     if (typeof Factory[superType] === 'function') {
-        function F () {}
+        // 缓存类
+        function F () {};
+        // 继承父类属性和方法
         F.prototype = new Factory[superType]();
+        // 子类继承父类
         subType.prototype = new F();
+        // 将子类的 constructor 指向子类
         subType.prototype.constructor = subType;
     }
 }
+// 汽车抽象类
 Factory.Car = function () {
     this.type = 'car';
 }
@@ -64,11 +71,14 @@ Factory.Truck.prototype = {
         return void 0;
     }
 }
+// 新疆Bmw类
 const Bmw = function (price, speed) {
     this.price = price;
     this.speed = speed;
 }
+// 工厂继承抽象类
 Factory(Bmw, 'Car');
+// 重写原型方法
 Bmw.prototype = {
     getPrice: function () {
         return this.price;
