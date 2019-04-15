@@ -62,7 +62,7 @@ Child1.prototype = new Parent();
 Child1.prototype.setId= function (d) {
     return d;
 }
-// Object.create
+// Object.create 
 function Child2 () {
     this.child = 'child';
 }
@@ -71,4 +71,51 @@ Child2.prototype.constructor = Child2;
 Child2.prototype.setId = function (d) {
     return d;
 }
+```
+- 原型式继承
+
+```
+function extendsFun(o) {
+    function F () {}
+    F.prototype = o;
+    return new F();
+}
+const people = {
+    name: 'lee',
+    age: 27
+}
+const people1 = extendsFun(people);
+people1.name = 'lee1';
+people1.age = 28;
+console.log(people1.name);
+console.log(people1.age);
+
+const people2 = extendsFun(people);
+people2.name = 'lee2';
+people2.age = 26;
+console.log(people2.name);
+console.log(people2.age);
+```
+
+- 组合寄生继承
+
+```
+function Parent (name) {
+    this.name = name;
+}
+Parent.prototype.setAge = function (n) {
+    return n;
+}
+function Child (name, age) {
+    Parent.call(this, name);
+    this.age = age;
+}
+Child.prototype = Object.create(Parent.prototype);
+Child.prototype.constructor = Child;
+Child.prototype.setAddress = function (d) {
+    return d;
+}
+const c = new Child('lee', 27);
+console.log(c.name);
+console.log(c.age);
 ```
