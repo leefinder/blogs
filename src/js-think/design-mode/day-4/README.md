@@ -72,4 +72,5 @@ const p = new Person('Lee', 27);
 console.log(`${p}`); // Lee, 27岁, 正在努力印钞中
 ```
 [Decorators in ES7](http://www.liuhaihua.cn/archives/115548.html)
+
 [ES7 Decorator 装饰者模式](http://taobaofed.org/blog/2015/11/16/es7-decorator/)
