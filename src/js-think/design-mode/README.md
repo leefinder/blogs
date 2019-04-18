@@ -3,3 +3,4 @@
 - [构造函数 面向对象编程](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-2)
 - [工厂模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-3)
 - [装饰器的应用](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-4)
+- [DOM事件机制](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-5)
