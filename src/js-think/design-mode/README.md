@@ -7,5 +7,6 @@
 - [单例模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-6)
 - [策略模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-7)
 - [迭代器模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-8)
+- [发布-订阅模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-9)
 
 [参考文档](https://godbmw.com/passages/2019-03-04-please-mark/)
