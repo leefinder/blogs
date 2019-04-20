@@ -6,7 +6,14 @@
 - [new 构造函数](https://github.com/leefinder/blogs/tree/master/src/js-think/new-function)
 
 - [javascript设计模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode)
-
+    1. [应用场景___全局变量与对象的设计](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-1)
+    2. [构造函数 面向对象编程](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-2)
+    3. [工厂模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-3)
+    4. [装饰器的应用](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-4)
+    5. [DOM事件机制](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-5)
+    6. [单例模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-6)
+    7. [策略模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-7)
+    8. [迭代器模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-8)
 - [bind实现](https://github.com/leefinder/blogs/tree/master/src/js-think/bind-call-apply)
 
 - [防抖节流](https://github.com/leefinder/blogs/tree/master/src/js-think/debounce-throttle)
