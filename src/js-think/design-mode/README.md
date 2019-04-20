@@ -3,3 +3,6 @@
 - [构造函数 面向对象编程](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-2)
 - [工厂模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-3)
 - [装饰器的应用](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-4)
+- [单例模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-5)
+
+[参考文档](https://godbmw.com/passages/2019-03-04-please-mark/)
