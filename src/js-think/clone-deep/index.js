@@ -14,7 +14,7 @@ const getRegExp = reg => {
     }
     return s;
 }
-const cloneDeep = parent => {
+const cloneDeep1 = parent => {
     const parents = [];
     const children = [];
 
@@ -74,3 +74,74 @@ let child2 = cloneDeep(parent);
 console.log(parent);
 console.log(child1);
 console.log(child2);
+
+
+let arr = [];
+for (let i = 0; i < 1000000; i++) {
+    arr.push(i);
+}
+const len = arr.length;
+let i = 0;
+let sum = 0;
+console.time('while');
+while (i < len) {
+    sum += arr[i];
+    i++;
+}
+console.timeEnd('while');
+console.time('for in');
+for (let i in arr) {
+    sum += arr[i];
+}
+console.timeEnd('for in');
+console.time('for');
+for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+}
+console.timeEnd('for');
+
+const forEach = (obj, cb) => {
+    const isArray = Array.isArray(obj);
+    let v = isArray ? obj : Object.keys(obj);
+    let index = 0;
+    let len = v.length;
+    while (index < len) {
+        let key = isArray ? index : v[index];
+        cb(obj[key], key);
+        index++;
+    }
+    return obj;
+}
+
+const cloneDeep2 = (parent, weakMap = new WeakMap()) => {
+
+    const _clone = parent => {
+        if (parent === null) {
+            return null;
+        }
+        if (typeof parent !== 'object') {
+            return parent;
+        }
+        let child;
+        let type = getType(parent);
+        if (type === '[object Array]') {
+            child = [];
+        } else if (type === '[object Date]') {
+            child = new Date(parent.getTime());
+        } else if (type === '[object RegExp]') {
+            child = new RegExp(parent.source, getRegExp(parent));
+        } else {
+            let proto = Object.getPrototypeOf(parent);
+            child = Object.create(proto);
+        }
+        if(weakMap.get(parent)) {
+            return weakMap.get(parent);
+        }
+        weakMap.set(parent, child);
+        forEach(parent, (v, key) => {
+            child[key] = cloneDeep2(parent[key], weakMap);
+        })
+        return child;
+    }
+    return _clone(parent);
+}
