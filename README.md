@@ -16,7 +16,8 @@
     8. [迭代器模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-8)
     9. [发布-订阅模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-9)
     10. [观察者模式](https://github.com/leefinder/blogs/tree/master/src/js-think/design-mode/day-10)
-
+    
+- [深拷贝](https://github.com/leefinder/blogs/tree/master/src/js-think/clone-deep)
 
 - [bind实现](https://github.com/leefinder/blogs/tree/master/src/js-think/bind-call-apply)
 
