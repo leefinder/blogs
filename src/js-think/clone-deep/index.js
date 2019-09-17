@@ -68,9 +68,9 @@ let parent = {
     },
     g: new P()
 }
-let child1 = cloneDeep(parent);
+let child1 = cloneDeep1(parent);
 parent.h = parent;
-let child2 = cloneDeep(parent);
+let child2 = cloneDeep1(parent);
 console.log(parent);
 console.log(child1);
 console.log(child2);
@@ -114,34 +114,81 @@ const forEach = (obj, cb) => {
 }
 
 const cloneDeep2 = (parent, weakMap = new WeakMap()) => {
-
-    const _clone = parent => {
-        if (parent === null) {
-            return null;
-        }
-        if (typeof parent !== 'object') {
-            return parent;
-        }
-        let child;
-        let type = getType(parent);
-        if (type === '[object Array]') {
-            child = [];
-        } else if (type === '[object Date]') {
-            child = new Date(parent.getTime());
-        } else if (type === '[object RegExp]') {
-            child = new RegExp(parent.source, getRegExp(parent));
-        } else {
-            let proto = Object.getPrototypeOf(parent);
-            child = Object.create(proto);
-        }
-        if(weakMap.get(parent)) {
-            return weakMap.get(parent);
-        }
-        weakMap.set(parent, child);
-        forEach(parent, (v, key) => {
-            child[key] = cloneDeep2(parent[key], weakMap);
-        })
-        return child;
+    if (parent === null) {
+        return null;
     }
-    return _clone(parent);
+    if (typeof parent !== 'object') {
+        return parent;
+    }
+    let child;
+    let type = getType(parent);
+    if (type === '[object Array]') {
+        child = [];
+    } else if (type === '[object Date]') {
+        child = new Date(parent.getTime());
+    } else if (type === '[object RegExp]') {
+        child = new RegExp(parent.source, getRegExp(parent));
+    } else {
+        let proto = Object.getPrototypeOf(parent);
+        child = Object.create(proto);
+    }
+    if(weakMap.get(parent)) {
+        return weakMap.get(parent);
+    }
+    weakMap.set(parent, child);
+    forEach(parent, (v, key) => {
+        child[key] = cloneDeep2(parent[key], weakMap);
+    })
+    return child;
 }
+
+function isObject(parent) {
+    const type = typeof parent;
+    return parent !== null && (type === 'object' || type === 'function');
+}
+
+const cloneDeep3 = (parent, weakMap = new WeakMap()) => {
+    if (!isObject(parent)) {
+        return parent;
+    }
+    let child;
+    const type = getType(parent);
+    if (type === '[object Array]') {
+        child = [];
+    } else if (type === '[object Date]') {
+        child = new Date(parent.getTime());
+    } else if (type === '[object RegExp]') {
+        child = new RegExp(parent.source, getRegExp(parent));
+    } else if (type === '[object Map]') {
+        child = new Map();
+        parent.forEach((item, key) => {
+            child.set(key, cloneDeep3(item, weakMap));
+        });
+        return child;
+    } else if (type === '[object Set]') {
+        child = new Set();
+        parent.forEach(item => {
+            child.add(cloneDeep3(item, weakMap));
+        });
+        return child;
+    } else {
+        const proto = Object.getPrototypeOf(parent);
+        child = Object.create(proto);
+    }
+    if (weakMap.has(parent)) {
+        return weakMap.get(parent);
+    }
+    weakMap.set(parent, child);
+    forEach(parent, (v, key) => {
+        child[key] = cloneDeep3(parent[key], weakMap);
+    });
+    return child;
+}
+let map = new Map();
+let set = new Set();
+map.set('parent', parent);
+set.add(parent);
+parent.map = map;
+parent.set = set;
+
+cloneDeep3(parent);

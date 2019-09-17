@@ -130,7 +130,7 @@ for (let i = 0; i < arr.length; i++) {
 console.timeEnd();
 ```
 
-### 改造循环函数
+#### 改造循环函数
 
 ```
 // 原来的
@@ -150,6 +150,22 @@ const forEach = (obj, cb) => {
         index++;
     }
 }
+```
+
+#### Map和Set的克隆支持
+
+```
+child = new Map();
+parent.forEach((item, key) => {
+    child.set(key, cloneDeep3(item, weakMap));
+});
+return child;
+
+child = new Set();
+parent.forEach(item => {
+    child.add(cloneDeep3(item, weakMap));
+});
+return child;
 ```
 
 [ES6-Map](http://es6.ruanyifeng.com/#docs/set-map#WeakMap)
