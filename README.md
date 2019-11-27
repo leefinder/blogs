@@ -1,6 +1,8 @@
 ## Lee-Finder的前端记录仪
 - [垂直居中](https://github.com/leefinder/blogs/tree/master/src/html-css/css-center)
 
+- [左中右布局](https://github.com/leefinder/blogs/tree/master/src/html-css/left-middle-right)
+
 - [视觉差](https://github.com/leefinder/blogs/tree/master/src/html-css/parallax-scroll)
 
 - [new 构造函数](https://github.com/leefinder/blogs/tree/master/src/js-think/new-function)
