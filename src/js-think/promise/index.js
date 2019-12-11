@@ -46,7 +46,7 @@ class PromiseA {
                     if (res instanceof PromiseA) {
                         res.then(resolve, reject);
                     } else {
-                        resolve();
+                        resolve(res);
                     }
                 }
             }
@@ -58,7 +58,7 @@ class PromiseA {
                     if (rej instanceof PromiseA) {
                         rej.then(resolve, reject);
                     } else {
-                        reject();
+                        reject(rej);
                     }
                 }
             }
