@@ -30,21 +30,33 @@ let a = {
     aa: 11,
     bb: 22
 }
-let b = function (aa, bb) {
+let B = function (aa, bb) {
     this.aa = aa;
     this.bb = bb;
     console.log(this.aa, this.bb);
 }
+B.prototype.getName = function () {}
 let c = b.cBind(a, 1, 2);
 c();
 
 Function.prototype.cCall = function (c) {
     const args = [].slice.call(arguments, 1);
     c.fn = this;
-    c.fn(...args);
+    let result = curry(c.fn)
+    console.log(result)
+    for (let i = 0; i < args.length; i++) {
+        result = result(args[i]);
+    }
 }
 b.cCall(a, 'a', 'b');
 
+function curry (fn, ...args) {
+    if (args.length >= fn.length) {
+        return fn(...args)
+    } else {
+        return (...args2) => curry(fn, ...args, ...args2)
+    }
+}
 Function.prototype.cApply = function (c, arr) {
     c.fn = this;
     let args = [];
