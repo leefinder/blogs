@@ -1,6 +1,16 @@
 # this问题
 
 - 默认绑定,非严格模式下this指向全局对象,严格模式下this指向undefined
+```
+    this.a = "aaa";
+    console.log(a);//aaa
+    console.log(this.a);//aaa
+    console.log(window.a);//aaa
+    console.log(this);// window
+    console.log(window);// window
+    console.log(this == window);// true
+    console.log(this === window);// true
+```
 - 隐式绑定,函数引用的上下文对象,例如obj.foo(),foo内的this指向obj
 - 显示绑定,通过call,apply等直接指定this的绑定对象
 - new绑定
@@ -391,4 +401,44 @@ var obj = {
 - 如果call、apply、bind接收到的第一个参数是空或者null、undefined的话，则会忽略这个参数
 - forEach、map、filter函数的第二个参数也是能显式绑定this的
 
+## 扩展
+
+### 匿名通过call绑定执行
+
+```
+// 打印
+// undefined undefined
+// undefined undefined
+// Jimy Hardsam
+(function () {
+    function invoke() {
+        function createName() {
+            console.log(this.familyName + ' ' + this.customName)
+            return this.familyName + ' ' + this.customName
+        }
+
+        this.name = createName()
+        this.say = function() {
+            console.log(this.name)
+        }
+    }
+
+    const person = {
+        familyName: 'Adrew',
+        customName: 'Karm',
+        invoke,
+    }
+
+    person.invoke()
+    person.say()
+
+    console.log(this.familyName + ' ' + this.customName)
+}).call({
+    familyName: 'Jimy',
+    customName: 'Hardsam',
+})
+```
+
 [this突破](https://juejin.im/post/5e6358256fb9a07cd80f2e70#heading-24)
+[javascript技术难点之this、new、apply和call详解](https://www.tangshuang.net/2029.html)
+[javascript中this究竟指向了谁？](https://www.tangshuang.net/6997.html)
