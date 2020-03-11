@@ -17,11 +17,11 @@ Function.prototype.cBind = function (oThis) {
     // 维护原型关系
     if (this.prototype) {
         // Function.prototype doesn't have a prototype property
-        fNOP.prototype = this.prototype;
+        fNOP.prototype = Object.create(this.prototype);
     }
     // 下行的代码使fBound.prototype是fNOP的实例,因此
     // 返回的fBound若作为new的构造函数,new生成的新对象作为this传入fBound,新对象的__proto__就是fNOP的实例
-    fBound.prototype = new fNOP();
+    fBound.prototype = Object.getPrototypeOf(new fNOP());
 
     return fBound;
 };
@@ -31,11 +31,9 @@ let a = {
     bb: 22
 }
 let B = function (aa, bb) {
-    this.aa = aa;
-    this.bb = bb;
     console.log(this.aa, this.bb);
 }
-B.prototype.getName = function () {}
+B.prototype.getName = function () {return this.aa;}
 let c = b.cBind(a, 1, 2);
 c();
 
