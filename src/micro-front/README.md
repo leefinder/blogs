@@ -24,7 +24,7 @@
         if (prefetch) {
             prefetchApps(microApps, prefetch, importEntryOpts); // src\prefetch.ts
         }
-
+        // 默认开启沙箱环境
         if (jsSandbox) {
             if (!window.Proxy) {
                 console.warn('[qiankun] Miss window.Proxy, proxySandbox will degenerate into snapshotSandbox');
@@ -48,6 +48,7 @@
 
 ```
     function prefetchAfterFirstMounted(apps: LoadableApp[], opts?: ImportEntryOpts): void {
+        // 添加第一个子应用mounted监听
         window.addEventListener('single-spa:first-mount', function listener() {
             const mountedApps = getMountedApps();
             const notMountedApps = apps.filter(app => mountedApps.indexOf(app.name) === -1);
@@ -100,7 +101,9 @@
 ```
 // qiankun/src/sandbox/index.ts
     let sandbox: SandBox;
+    // 是否支持window.Proxy
     if (window.Proxy) {
+        // 是否时单实例场景
         sandbox = singular ? new LegacySandbox(appName) : new ProxySandbox(appName);
     } else {
         sandbox = new SnapshotSandbox(appName);
@@ -113,57 +116,67 @@
 
 ```
     export default class SnapshotSandbox implements SandBox {
-        proxy: WindowProxy; // 代理对象，初始化后这里是指window对象
-
-        name: string; // 沙箱的名字
-
-        sandboxRunning = false; // 沙箱是否为激活状态，即运行中
-
-        private windowSnapshot!: Window; // 沙箱激活时执行iter拷贝一层window对象到该对象上
-
-        private modifyPropsMap: Record<any, any> = {}; // 记录当前子应用运行时修改了哪些window属性
+        // 代理对象，初始化后这里是指window对象
+        proxy: WindowProxy; 
+        // 沙箱的名字
+        name: string; 
+        // 沙箱是否为激活状态，即运行中
+        sandboxRunning = false; 
+        // 沙箱激活时执行iter拷贝一层window对象到该对象上
+        private windowSnapshot!: Window; 
+        // 记录当前子应用运行时修改了哪些window属性
+        private modifyPropsMap: Record<any, any> = {}; 
 
         constructor(name: string) {
-            this.name = name; // 给沙箱取个名字
-            this.proxy = window; // 代理window
-            this.active(); // 沙箱激活
+            // 给沙箱取个名字
+            this.name = name; 
+            // 代理window
+            this.proxy = window; 
+            // 子应用挂载时激活沙箱
+            this.active(); 
         }
 
         active() {
-            if (this.sandboxRunning) { // 如果发现沙箱正在运行中 直接返回
+            // 如果发现沙箱正在运行中 直接返回
+            if (this.sandboxRunning) { 
                 return;
             }
 
             // 记录当前快照
-            this.windowSnapshot = {} as Window; // 初始化一个空对象
+            // 初始化一个空对象
+            this.windowSnapshot = {} as Window; 
+            // 把window的属性拷贝一层下来
             iter(window, prop => {
-                this.windowSnapshot[prop] = window[prop]; // 把window的属性拷贝一层下来
+                this.windowSnapshot[prop] = window[prop]; 
             });
 
             // 恢复之前的变更
             Object.keys(this.modifyPropsMap).forEach((p: any) => {
                 window[p] = this.modifyPropsMap[p];
             });
-
-            this.sandboxRunning = true; // 进入沙箱环境立即锁定防止重复执行active
+            // 进入沙箱环境立即锁定防止重复执行active
+            this.sandboxRunning = true; 
         }
 
         inactive() {
-            this.modifyPropsMap = {}; // 当前子应用退出时记录被变更的属性
+            // 当前子应用退出时记录被变更的属性
+            this.modifyPropsMap = {}; 
 
             iter(window, prop => {
                 if (window[prop] !== this.windowSnapshot[prop]) {
                     // 记录变更，恢复环境
-                    this.modifyPropsMap[prop] = window[prop]; // 记录变更的window属性，在下次执行active时还原这些属性
-                    window[prop] = this.windowSnapshot[prop]; // 当前子应用退出时，比对快照把window恢复当初始状态
+                    // 记录变更的window属性，在下次执行active时还原这些属性
+                    this.modifyPropsMap[prop] = window[prop]; 
+                    // 当前子应用退出时，比对快照把window恢复当初始状态
+                    window[prop] = this.windowSnapshot[prop]; 
                 }
             });
 
             if (process.env.NODE_ENV === 'development') {
                 console.info(`[qiankun:sandbox] ${this.name} origin window restore...`, Object.keys(this.modifyPropsMap));
             }
-
-            this.sandboxRunning = false; // 沙箱状态变更为false，未激活
+            // 沙箱状态变更为false，未激活
+            this.sandboxRunning = false; 
         }
     }
 ```
@@ -175,16 +188,18 @@
 ```
     export default class ProxySandbox implements SandBox {
         /** window 值变更的记录快照 */
-        private updateValueMap = new Map<PropertyKey, any>(); // 这里定义了Map，后面对代理操作的属性先从这里取
-
-        name: string; // 沙箱的名字
-
-        proxy: WindowProxy; // 代理对象 这里就是window
-
-        sandboxRunning = true; // 默认为运行中，激活状态
+        // 这里定义了Map，后面对代理操作的属性先从这里取
+        private updateValueMap = new Map<PropertyKey, any>(); 
+        // 沙箱的名字
+        name: string; 
+        // 代理对象 这里就是window
+        proxy: WindowProxy; 
+        // 默认为运行中，激活状态
+        sandboxRunning = true; 
 
         active() {
-            this.sandboxRunning = true; // 沙箱激活
+            // 沙箱激活
+            this.sandboxRunning = true; 
         }
 
         inactive() {
@@ -193,23 +208,27 @@
                     ...this.updateValueMap.keys(),
                 ]);
             }
-
-            this.sandboxRunning = false; // 沙箱关闭，退出
+            // 沙箱关闭，退出
+            this.sandboxRunning = false; 
         }
 
         constructor(name: string) {
-            this.name = name; // 初始化沙箱名字
+            // 初始化沙箱名字
+            this.name = name; 
             const { sandboxRunning, updateValueMap } = this;
 
             const boundValueSymbol = Symbol('bound value');
             // https://github.com/umijs/qiankun/pull/192
-            const rawWindow = window; // 缓存一份原始的window对象
-            const fakeWindow = createFakeWindow(rawWindow); // 将configurable为true的可配置window属性代理到fakeWindow上
-
-            const proxy = new Proxy(fakeWindow, { // 初始化沙箱抛出proxy提供访问
+            // 缓存一份原始的window对象
+            const rawWindow = window; 
+            // 将configurable为true的可配置window属性代理到fakeWindow上
+            const fakeWindow = createFakeWindow(rawWindow); 
+            // 初始化沙箱抛出proxy提供访问
+            const proxy = new Proxy(fakeWindow, { 
                 set(_: Window, p: PropertyKey, value: any): boolean {
                     if (sandboxRunning) {
-                        updateValueMap.set(p, value); // 在修改全局环境属性的时候实际上是把该属性通过key映射存在我们定义的updateValueMap上，等我们下次访问的时候就从这个对象上优先读取
+                // 在修改全局环境属性的时候实际上是把该属性通过key映射存在我们定义的updateValueMap上，等我们下次访问的时候就从这个对象上优先读取
+                        updateValueMap.set(p, value); 
 
                         return true;
                     }
@@ -243,7 +262,8 @@
                     }
 
                     // Take priority from the updateValueMap, or fallback to window
-                    const value = updateValueMap.get(p) || (rawWindow as any)[p]; // 所有属性优先从updateValueMap上找
+                    // 所有属性优先从updateValueMap上找
+                    const value = updateValueMap.get(p) || (rawWindow as any)[p]; 
                     /*
                     仅绑定 !isConstructable && isCallable 的函数对象，如 window.console、window.atob 这类。目前没有完美的检测方式，这里通过 prototype 中是否还有可枚举的拓展方法的方式来判断
                     @warning 这里不要随意替换成别的判断方式，因为可能触发一些 edge case（比如在 lodash.isFunction 在 iframe 上下文中可能由于调用了 top window 对象触发的安全异常）
@@ -266,7 +286,8 @@
                 // trap in operator
                 // see https://github.com/styled-components/styled-components/blob/master/packages/styled-components/src/constants.js#L12
                 has(_: Window, p: string | number | symbol): boolean {
-                    return updateValueMap.has(p) || p in rawWindow; // 是否是window的属性
+                    // 是否是window的属性
+                    return updateValueMap.has(p) || p in rawWindow; 
                 },
 
                 getOwnPropertyDescriptor(target: Window, p: string | number | symbol): PropertyDescriptor | undefined {
