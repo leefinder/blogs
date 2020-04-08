@@ -183,7 +183,7 @@
 
 ### ProxySandbox
 
-> ProxySandbox其实是通过Object.defineProperty对window对象做了一层代理操作
+> ProxySandbox其实是通过Object.defineProperty对window对象做了一层代理操作，定义了一个Map对象updateValueMap，后面操作全局属性优先读取updateValueMap上的属性，updateValueMap是对window对象所有可配置属性的一层代理，在子应用沙箱中修改全局对象属性也是Proxy到updateValueMap对象上，调用updateValueMap.set(key, value)做临时环境变量存储的映射
 
 ```
     export default class ProxySandbox implements SandBox {
