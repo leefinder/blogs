@@ -114,6 +114,12 @@
 
 > 先说说比较容易理解的SnapshotSandbox快照模式沙箱，整体上看来就是把window对象拷贝给一个新对象缓存下来，在退出的时候比对下缓存，然后把变更的数据通过一个modify变量存起来，然后通过快照还原window
 
+- 子应用执行，创建一个js沙箱，执行entryBox
+- 创建空对象windowSnapshot复制一层window对象缓存下来，获取上一次变更的历史属性，如果有的话覆盖到当前window上
+- 子应用退出，创建一个空对象modifyPropsMap记录变更的属性
+- 读取内存中的window快照对象，对比window和windowSnapshot对象，把变更后的属性缓存到modifyPropsMap上，通过快照恢复window到初始状态
+
+
 ```
     export default class SnapshotSandbox implements SandBox {
         // 代理对象，初始化后这里是指window对象
