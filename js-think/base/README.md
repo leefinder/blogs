@@ -56,3 +56,25 @@ function countDownStart () {
 }
 ```
 [JavaScript 前端倒计时纠偏实现](https://juejin.im/post/5badf8305188255c8e728adc)
+
+# truthy
+
+> JavaScript有一个thuthy的概念，用来定义在某些位置上被评估为true的代码（例如，if条件语句中的boolean、&&、||操作符）。例如，下面的代码在JavaScript中会被认为是truthy的（在if条件语句中，条件为除0以外的任何数字都会被认为true，即判断结果是truthy的）。
+
+```
+if (123) {
+    // 推断为 true
+}
+```
+
+> 通过操作符！！，你可以很容易地将某些值转化为布尔类型的值（true或false）
+
+变量 | truthy | falsy
+-- | -- | --
+boolean | true | false
+string | 非空字符串 | ""空字符串
+number | 非0，非NaN | 0，NaN
+null | 从不 | 总是false
+undefined | 从不 | 总是false
+Array | 总是 | 从不
+Object | 总是 | 从不
