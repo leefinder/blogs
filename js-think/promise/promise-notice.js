@@ -4,7 +4,6 @@ p.then(() => {
     console.log('catch-then')
 })
 
-
 let a = new Promise((resolve, reject) => {
     if (Math.random() < 0.5) {
         resolve()

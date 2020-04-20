@@ -3,13 +3,13 @@
 - 默认绑定,非严格模式下this指向全局对象,严格模式下this指向undefined
 ```
     this.a = "aaa";
-    console.log(a);//aaa
-    console.log(this.a);//aaa
-    console.log(window.a);//aaa
-    console.log(this);// window
-    console.log(window);// window
-    console.log(this == window);// true
-    console.log(this === window);// true
+    console.log(a); // aaa
+    console.log(this.a); // aaa
+    console.log(window.a); // aaa
+    console.log(this); // window
+    console.log(window); // window
+    console.log(this == window); // true
+    console.log(this === window); // true
 ```
 - 隐式绑定,函数引用的上下文对象,例如obj.foo(),foo内的this指向obj
 - 显示绑定,通过call,apply等直接指定this的绑定对象
@@ -23,7 +23,7 @@
 > 通过var创建变量,不在函数体里的情况下会把变量绑定到window上,看下面案例
 
 ```
-var a = 'window'
+var a = 'window'；
 function fn () {
     console.log(this.a);
 }
@@ -46,25 +46,14 @@ window.fn();
 "use strict";
 var a = 'window';
 function fn () {
-    console.log('this in function:', this);
-    console.log('window.a:', window.a);
-    console.log('this.a in function:', this.a);
+    console.log('this in function:', this); // this in function: undefined
+    console.log('window.a:', window.a); // window.a: window
+    console.log('this.a in function:', this.a); // Uncaught TypeError: Cannot read property 'a' of undefined
 }
-console.log(window.fn); 
-/** 
-    * ƒ fn () {
-    * console.log('this in function:', this)
-    * console.log('window.a:', window.a)
-    * console.log('this.a in function:', this.a)
-  * }
-*/
+console.log(window.fn);
+
 console.log('this:', this); // this: Window
 fn();
-/**
-    * this in function: undefined
-    * window.a: window
-    * Uncaught TypeError: Cannot read property 'a' of undefined
-*/
 ```
 
 ### 案例1.3
@@ -229,7 +218,7 @@ obj.fn(); // 'obj'
 
 > 隐式绑定,函数体内异步调用
 
-> 这里我们看setTimeout,实际上是执行了window.setTimeout,因此this只想了window
+> 这里我们看setTimeout,实际上是执行了window.setTimeout,因此this指向了window
 
 ```
 var a = 'window';
@@ -337,7 +326,7 @@ fn().call(obj); // window obj
 
 ### 案例3.5
 
-> 将执行函数刚到对象里面
+> 将执行函数放到对象里面
 ```
 var obj = {
     a: 'obj-1',
@@ -366,6 +355,7 @@ var obj = {
     fn (v) {
         v = v || this.a;
         return function (n) {
+            console.log(this.a, 'this.a');
             console.log(this.a + v + n);
         }
     }
@@ -373,8 +363,10 @@ var obj = {
 var obj2 = {
     a: 3
 }
+// 传入a = 1，call改变了this的指向，this.a = 3，call传入n = 1
 obj.fn(a).call(obj2, 1);
-obj.fn.call(obj2)(1);
+// fn没有传入参数v = this.a，这里this指向obj2，this.a = 3，指向返回的匿名函数，这里this指向window，this.a = 1，匿名函数传入1
+obj.fn.call(obj2)(1); 
 
 ```
 
@@ -386,11 +378,14 @@ obj.fn.call(obj2)(1);
 var a = 'window';
 var obj = {
     a: 'obj'
-}
+};
 [1,2,3].map(function (t) {
-    console.log(t, this.a);
+    console.log(t, this.a); // 1 'obj' 2 'obj' 3 'obj'
 }, obj);
 ```
+
+
+
 
 ## 总结
 
@@ -409,7 +404,7 @@ var obj = {
 // 打印
 // undefined undefined
 // undefined undefined
-// Jimy Hardsam
+// Jimy Hardsam
 (function () {
     function invoke() {
         function createName() {
@@ -437,6 +432,38 @@ var obj = {
     familyName: 'Jimy',
     customName: 'Hardsam',
 })
+```
+
+### 原型异步调用丢失
+
+```
+function Person (age, money) {
+    this.age = age || 0;
+    this.money = money || 0;
+    this.growAge = function () {
+        this.age++;
+    }
+}
+Person.prototype.growMoney = function () {
+    this.money++;
+}
+var person = new Person();
+setTimeout(person.growAge, 1000); // this指向window
+setTimeout(person.growMoney, 1000);
+person.growAge();
+person.growMoney();
+setTimeout(function () {
+    console.log(this);
+    person.growAge()
+}, 1000);
+setTimeout(function () {
+    console.log(this);
+    person.growMoney()
+}, 1000);
+setTimeout(function () {
+    console.log(person.age);
+    console.log(person.money);
+}, 2000);
 ```
 
 [this突破](https://juejin.im/post/5e6358256fb9a07cd80f2e70#heading-24)
