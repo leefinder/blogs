@@ -84,4 +84,22 @@ isNaN(false); // false
 Number.isNaN(); // 上面的几项都是false
 ```
 
+> Number.isNaN的polyfill实现
+
+```
+if (!Number.isNaN) {
+    Number.isNaN = function (n) {
+        return typeof n === 'number' && isNaN(n)
+    }
+}
+
+// NaN不等于自身的特点
+
+if (!Number.isNaN) {
+    Number.isNaN = function (n) {
+        return n !== n;
+    }
+}
+```
+
 [阮一峰null和undefined的区别](http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html)
