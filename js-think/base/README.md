@@ -91,3 +91,59 @@ Object | 总是 | 从不
         return v.toString(16);
     });
 ```
+
+# Number.isNaN的polyfill实现
+
+```
+if (!Number.isNaN) {
+    Number.isNaN = function (n) {
+        return typeof n === 'number' && isNaN(n)
+    }
+}
+
+// NaN不等于自身的特点
+
+if (!Number.isNaN) {
+    Number.isNaN = function (n) {
+        return n !== n;
+    }
+}
+```
+
+# Number.isInteger(..)的polyfill实现
+
+> 要检测一个值是否是整数，可以使用ES6中的Number.isInteger(..)方法，ES6之前的版本polyfill Number.isInteger(..)方法
+
+```
+if (!Number.isInteger) {
+    Number.isInteger = function (num) {
+        return typeof num === 'number' && num % 1 === 0;
+    }
+}
+```
+
+# Number.isSafeInteger(..)的polyfill实现
+
+```
+if (!Number.isSafeInteger) {
+    Number.isSafeInteger = function (num) {
+        return Number.isInteger(num) && Math.abs(num) < Number.MAX_SAFE_INTEGER;
+    }
+}
+```
+
+# Object.is(a, b)的polyfill实现
+
+```
+if (!Object.is) {
+    Object.is = function (a, b) {
+        if (a === 0 && b === 0) {
+            return 1 / a === 1 / b;
+        }
+        if (a !== a) {
+            return b !== b;
+        }
+        return a === b;
+    }
+}
+```
