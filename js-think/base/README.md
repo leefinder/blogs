@@ -92,7 +92,7 @@ Object | 总是 | 从不
     });
 ```
 
-# Number.isNaN的polyfill实现
+# Number.isNaN的polyfill实现
 
 ```
 if (!Number.isNaN) {
