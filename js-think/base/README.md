@@ -92,7 +92,7 @@ Object | 总是 | 从不
     });
 ```
 
-# Number.isNaN的polyfill实现
+# Number.isNaN的polyfill实现
 
 ```
 if (!Number.isNaN) {
@@ -146,4 +146,75 @@ if (!Object.is) {
         return a === b;
     }
 }
+```
+
+# 词法作用域
+
+> 执行 foo 函数，先从 foo 函数内部查找是否有局部变量 value，如果没有，就根据书写的位置，查找上面一层的代码，也就是 value 等于 1，所以结果会打印 1
+
+```
+var a = 1;
+
+function foo () {
+    console.log(a);
+}
+
+function bar () {
+    var a = 2;
+    foo();
+}
+
+bar()
+
+```
+
+> 词法作用域是指内部函数在定义的时候就决定了其外部作用域
+
+```
+var scope = 'global scope';
+
+function checkscope () {
+    var scope = 'local scope';
+
+    function f () {
+        return scope;
+    }
+
+    return f();
+} 
+
+checkscope(); // local scope
+
+
+var scope = 'global scope';
+
+function checkscope () {
+    var scope = 'local scope';
+
+    function f () {
+        return scope;
+    }
+
+    return f;
+} 
+
+checkscope()(); // local scope
+
+
+function autorun () {
+    let x = 1;
+    function log () {
+      console.log(x);
+    };
+    
+    function run (fn) {
+      let x = 100;
+      fn();
+    }
+    
+    run(log); // 1
+};
+
+autorun();
+
 ```

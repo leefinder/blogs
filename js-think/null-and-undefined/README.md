@@ -84,7 +84,7 @@ isNaN(false); // false
 Number.isNaN(); // 上面的几项都是false
 ```
 
-> Number.isNaN的polyfill实现
+> Number.isNaN的polyfill实现
 
 ```
 if (!Number.isNaN) {

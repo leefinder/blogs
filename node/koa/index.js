@@ -10,6 +10,7 @@ function componse(middleware) {
         return dispatch(0);
         function dispatch(i) {
             if (i <= index) return Promise.reject(new Error('next() called multiple times'))
+            index = i
             let fn = middleware[i]
             if (i === middleware.length) fn = next
             if (!fn) return Promise.resolve() // 执行到最后resolve出来
