@@ -144,5 +144,27 @@
 				<p>grid</p>
 			</div>
 		</div>
+		<div id="parent" style="width: 300px;height: 300px; background-color: #ff0000;">
+			父容器
+			<div id="child" style="width: 100px; height: 100px; background: #0080ff;">
+				子容器
+			</div>
+		</div>
 	</body>
+	<script>
+		document.querySelector('#parent').addEventListener('click', () => {
+			console.log('父元素被点击')
+		})
+		document.querySelector('#child').addEventListener('click', (e) => {
+			e.preventDefault()
+			console.log('子元素被点击')
+		})
+		window.onerror = function (message, line, row, col, info) {
+			console.log(message, line, row, col, info, 1)
+		}
+		// var num = 'asdas'
+		// if (num == '') throw 'not a num'
+		// a()
+		// JSON.parse('{b}')
+	</script>
 </html>

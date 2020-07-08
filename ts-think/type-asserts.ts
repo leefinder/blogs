@@ -20,5 +20,5 @@ function logname (sm: {name?: string}) {
     }
 }
 let p = {name: 'lee', b: 123};
-logname({name: 'lee', b: 123}) // error
+// logname({name: 'lee', b: 123}) // error
 logname(p);
