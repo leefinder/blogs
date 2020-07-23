@@ -359,3 +359,5 @@ a.jsinvokes b.js
 4. b执行完，回到a中，a定义了a方法，a方法调用了b，导出a方法，这个时候因为ES6 Module是动态映射的，
 所以b中a方法已经有定义了
 5. 执行权回到index中，执行a方法
+
+[参考链接](https://juejin.im/post/5ea2bf6ff265da480304b72f#heading-8)
