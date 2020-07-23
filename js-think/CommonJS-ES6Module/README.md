@@ -9,28 +9,179 @@ ES6 Module | 静态 | 模块依赖关系建立发生在代码编译阶段 | node
 
 ## CommonJS
 
-```
-// example-1/test.cjs
-module.exports = { name: 'test' };
+> CommonJS规范，每个模块内部有两个变量可以使用require 和 module
 
-// example-1/index.cjs
-const { name } = require('./test.js');
+- require 用来加载某个模块
+- module 代表当前模块，是一个对象，保存了当前模块的信息。exports 是 module 上的一个属性，保存了当前模块要导出的接口或者变量，使用 require 加载的某个模块获取到的值就是那个模块使用 exports 导出的值
 
-```
-
-> CommonJS规范，当模块A加载模块B时，例如上面index.js加载test.js，会执行test.js中的代码，
+> 当模块A加载模块B时，例如上面index.js加载test.js，会执行test.js中的代码，
 module.exports对象会作为require函数的返回值被加载。require的模块路径可以动态指定，支持
 传入一个表达式，也可以通过if语句判断是否加载某个模块。因此在CommonJS模块被执行前，并不
-能明确依赖关系，模块的导入导出发生在代码运行时。
+能明确依赖关系，模块的导入导出发生在代码运行时
+
+
+```
+// test.js
+const name = 'lee';
+let age = 29;
+
+module.exports = {
+    name,
+    getAge () {
+        return age;
+    }
+};
+
+// index.js
+const p = require('./test.js');
+console.log(p.name); // 'lee'
+console.log(p.getAge); // 29
+
+```
+
+### CommonJS的exports
+
+> Node.js中的CommonJS规范，每个模块都有一个exports私有变量，exports指向module.exports
+
+> exports 是模块内的私有局部变量，它只是指向了 module.exports，所以直接对 exports 赋值是无效的，这样只是让 exports 不再指向module.exports了而已
+
+```
+// 可以这么理解 每个模块开始的地方都默认添加了下面的代码
+var exports = modules.exports
+
+// test.js
+const name = 'lee';
+let age = 29;
+
+exports.name = name;
+exports.getAge = function () {
+    return age;
+};
+```
+
+### CommonJS的require
+
+> require命令的基本功能是，读入并执行一个 js 文件，然后返回该模块的 exports 对象。如果没有发现指定模块，会报错
+
+> 第一次加载模块的时候，Node会缓存该模块，后面再次加载该模块，就直接冲缓存中读取module.exports属性
+
+> CommonJS模块的加载机制是，require的是被导出的值的拷贝。也就是说，一旦导出一个值，模块内部的变化就影响不到这个值
+
+```
+// test.js
+const name = 'lee';
+let age = 29;
+exports.name = name;
+exports.age = age;
+exports.setAge = function () {
+    age++;
+}
+ 
+// index.js
+let p = require('./test.js');
+console.log(p.name); // lee
+console.log(p.age); // 29
+p.name = 'lee++'
+console.log(p.name); // lee++
+p.setAge(); // 内部age++不影响导出的值
+console.log(p.age); // 29
+p.age++; // 导出的age++会自增
+
+let b = require('./test.js');
+console.log(b.name); // lee++
+console.log(b.age); // 30
+
+```
+
+### CommonJS实现
+
+> 我们可以向一个立即执行函数提供require，exports，module三个参数，模块代码放在这个立即执行函数里面。模块导出值放在module.exports中，这样即实现了模块化加载
+
+```
+(function(module, exports, require) {
+    // b.js
+    var a = require("a.js")
+    console.log('a.name=', a.name)
+    console.log('a.age=', a.getAge())
+ 
+    var name = 'lee'
+    var age = 29
+    exports.name = name
+    exports.getAge = function () {
+      return age
+    }
+ 
+})(module, module.exports, require)
+```
+
+> 我们参考webpack编译后的代码来帮我们理解
+
+```
+// bundle.js
+(function (modules) {
+    // 模块管理的实现
+})({
+  'a.js': function (module, exports, require) {
+    // a.js 文件内容
+  },
+  'b.js': function (module, exports, require) {
+    // b.js 文件内容
+  },
+  'index.js': function (module, exports, require) {
+    // index.js 文件内容
+  }
+})
+```
+
+### __webpack_require__
+
+> webpack实现__webpack_require__，初始化一个module对象放入installedModules中，当这个模块再次
+被引用到时直接从installedModules里面取值，此时他就是一个空对象，解释了上面例子的现象
+
+```
+function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+```
 
 ## ES6 Module
 
 ```
-// example-1/test.js
-export const name = 'test';
+// test.js
+const name = 'lee';
+let age = 29;
 
-//  node example-1/index.js
-import { name } from './test.js';
+const getAge = () => {
+    return age;
+}
+export {
+    name,
+    getAge
+}
+
+// index.js
+import { name, getAge } from './test.js';
+console.log(name);
+console.log(getAge());
 ```
 
 > ES6 Module的导入导出都是声明式的，它不支持导入路径是一个表达式，所有导入导出
@@ -48,55 +199,58 @@ ES6 Module的静态模块结构可以确保模块之间传递的值或接口类�
 
 ## 值拷贝与动态映射
 
-> 导入模块时，CommonJS是导出值的拷贝，ES6 Module是值的动态映射，并且这个映射是自读的。
+> 导入模块时，CommonJS是导出值的拷贝，ES6 Module是值的动态映射，并且这个映射是只读的。
 
 - CommonJS中的值拷贝
 
-> index.cjs中count是对test中的count的值拷贝，因此在调用add时，改变了test中的count，但是不会对index中的
-count造成影响
+> index.cjs中age是对test中的age的值拷贝，因此在调用setAge时，改变了test中的age，但是不会对index中的
+age造成影响
 
 ```
-// example-2/test.cjs
-var count = 0;
-module.exports = {
-    count,
-    add () {
-        count++;
-        return count;
-    }
+// test.js
+const name = 'lee';
+let age = 29;
+exports.name = name;
+exports.age = age;
+exports.setAge = function () {
+    age++;
 }
+ 
+// index.js
+let p = require('./test.js');
+console.log(p.name); // lee
+console.log(p.age); // 29
+p.name = 'lee++'
+console.log(p.name); // lee++
+p.setAge(); // 内部age++不影响拷贝导出的值
+console.log(p.age); // 29
+p.age++; // 导出的age++会自增
 
-// example-2/index.cjs
-
-let { count, add } = require('./test.cjs');
-console.log(count); // 0 这里的count是对test.js中的count的拷贝
-add();
-console.log(count); // 0 test.js中值改变不会造成index中的拷贝值影响
-count += 1;
-console.log(count); // 1 index中拷贝值改变
 ```
 
 - ES6 Module
 
-> ES6 Module中导入的变量时对原有值的动态映射，index中调用add，count也会变化，我们不能对ES6 Module
-导入的变量进行更改
+> ES6 Module中导入的变量时对原有值的动态映射，index中调用setAge，age也会变化，我们不能对ES6 Module
+导入的变量进行更改，因为这个映射是只读的
 
 ```
-// example-2/test.js
-let count = 0;
+const name = 'lee';
+let age = 29;
+const setAge = function () {
+    age++;
+}
 export {
-    count,
-    add () {
-        count++;
-    }
+    name,
+    age,
+    setAge
 }
 
-// example-2/index.js
-import { count, add } from './test.js';
-console.log(count); // 0
-add();
-console.log(count); // 1
-count++; // TypeError: Assignment to constant variable.
+import { name, age, setAge } from './test.js';
+console.log(name); // lee
+console.log(age); // 29
+setAge();
+console.log(age); // 30
+age++; // TypeError: Assignment to constant variable.
 ```
 ## 循环依赖
 
@@ -142,35 +296,6 @@ b: b.cjs
 4. b.js执行完，导出b.js，执行回归到a.js中
 5. a.js继续执行，打印b: b.js
 
-### __webpack_require__
-
-> webpack实现__webpack_require__，初始化一个module对象放入installedModules中，当这个模块再次
-被引用到时直接从installedModules里面取值，此时他就是一个空对象，解释了上面例子的现象
-
-```
-function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-```
 
 > ES6 Module方式实现循环依赖，下面的例子运行时报错了，无法在初始化之前访问"a"
 
