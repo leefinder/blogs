@@ -249,4 +249,33 @@
 
 > 执行 return Promise.resolve() ,创建一个 Promise 实例,执行 resolve ,此时将该 Promise 的 resolve 的 value（这里是undefined） 进入微任务队列,将该 Promise 的状态扭转为 resolve。然后接着执行了之前注册好的 "外部第二个then",然后注册 "外部第三个then" ,接着执行 "内部第一个then" 的 return 的 resolve 的这个 undefined value 的 Promise,执行完成之后,然后注册下一个then,但是没有下一个 then 了,执行完成,整个 return 任务完成,本次同步任务也执行完成,接着执行注册的 "外部第三个then" ,执行完成之后,注册 "外部第四个then",此时 "内部第一个then" 执行完成,注册 "内部第二个then",最后执行完"外部第四个then",再执行 刚刚注册的"内部第二个then".
 
+## Promise队列链式调用
+
+> 队列中的promise实现消息传递，A->B->C->D
+
+```
+function start(tasks) {
+    var result = [];
+    return tasks.reduce((accumulator, item, index) => {
+        return accumulator.then(res => {
+            result.push(res);
+            return index == tasks.length - 1 ? item(res).then(res => { result.push(res); return result; }) : item(res);
+        });
+    }, Promise.resolve(null));
+}
+
+function delay(time) {
+    return data => new Promise(function(resolve, reject) {
+        console.log('接收到值' + data);
+        setTimeout(function() {
+            resolve(time);
+        }, time);
+    });
+}
+
+start([delay(3000), delay(2000), delay(1000)]).then(res => {
+    console.log(res); // [0, 3000, 2000, 1000]
+});
+```
+
 [感谢wec团](https://wecteam.io/2019/11/24/%E6%B7%B1%E5%BA%A6%E6%8F%AD%E7%A7%98Promise%E6%B3%A8%E5%86%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E5%92%8C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/#more)
