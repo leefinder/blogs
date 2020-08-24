@@ -1,3 +1,4 @@
+// SyncBailHook为勾子加了个保险，当return返回不是undefine就会停止
 const { SyncBailHook } = require('./tapable/lib')
 
 const syncBailHook = new SyncBailHook(['name', 'age'])
