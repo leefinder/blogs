@@ -177,4 +177,42 @@ PromiseA.all([
 })
 
 
+const start = Date.now()
 
+const pa = () => {
+    return (data) => new Promise((res, rej) => {
+        setTimeout(() => {
+            console.log(data, Date.now() - start, 1)
+            res(1)
+        }, 1000)
+    })
+}
+
+const pb = () => {
+    return (data) => new Promise((res, rej) => {
+        setTimeout(() => {
+            console.log(data, Date.now() - start, 2)
+            res(2)
+        }, 1300)
+    })
+}
+
+const pc = () => {
+    return (data) => new Promise((res, rej) => {
+        setTimeout(() => {
+            console.log(data, Date.now() - start, 3)
+            res(3)
+        }, 2100)
+    })
+}
+
+const promiseQueue = [pa(), pb(), pc()]
+
+promiseQueue.reduce((t, p, i) => {
+    return t.then(data => {
+        if (i === promiseQueue.length - 1) {
+            return p(data).then(data => console.log(data))
+        }
+        return p(data)
+    })
+}, Promise.resolve(0))

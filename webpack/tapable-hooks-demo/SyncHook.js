@@ -19,7 +19,7 @@ syncHook.intercept({
         console.log('call', res)
     },
     register(tap) {
-        console.log('register')
+        console.log('register', tap)
         return tap
     },
     done() {
