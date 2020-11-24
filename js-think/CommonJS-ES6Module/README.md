@@ -3,7 +3,7 @@
 > CommonJS与ES6 Module本质区别，commonJS对模块依赖解决是“动态的”，ES6 Module是静态的
 
 module | 模块依赖 | 含义 | 备注
--- | -- | --
+-- | -- | -- | --
 CommonJS | 动态 | 模块依赖关系的建立发生在代码运行阶段 | node命令执行es6混用 .cjs
 ES6 Module | 静态 | 模块依赖关系建立发生在代码编译阶段 | node命令执行es模块 --experimental-modules 
 
