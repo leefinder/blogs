@@ -1,218 +1,142 @@
-const defaultFn = data => data
-class PromiseA {
-    constructor(fn) {
-        this.status = 'PENDING';
-        this.data = undefined;
-        this.resolveFnArr = []; // 存储回调队列
-        this.rejectFnArr = [];
-        const resolve = (data) => {
-            const { status, resolveFnArr } = this;
-            const run = () => {
-                if (status === 'PENDING') {
-                    this.status = 'FULLFILLED';
-                    this.data = data;
-                    let cb;
-                    while(cb = resolveFnArr.shift()) {
-                        cb(data);
-                    };
-                }
-            }
-            setTimeout(() => run(), 0)
+
+const PENDING = 'pending'
+const FULFILLED = 'fulfilled'
+const REJECTED = 'rejected'
+
+function transformToPromise (promise, result, resolve, reject) {
+    if (promise === result) {
+        return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+    }
+    if (typeof result === 'object' || typeof result === 'function') {
+        if (result === null) {
+            return resolve(result)
         }
-        const reject = (data) => {
-            const { status, rejectFnArr } = this;
-            const run = () => {
-                if (status === 'PENDING') {
-                    this.status = 'REJECTED';
-                    this.data = data;
-                    let cb;
-                    while(cb = rejectFnArr.shift()) {
-                        cb(data);
-                    };
-                }
-            }
-            setTimeout(() => run(), 0)
+        let then
+        try {
+            then = result.then
+        } catch (e) {
+            return reject(e)
         }
-        fn(resolve, reject);
-    }
-    then(successFn = defaultFn, rejectFn = defaultFn) {
-        const { status } = this;
-        return new PromiseA((resolve, reject) => {
-            const onFullFilled = (data) => {
-                if (!successFn || typeof successFn !== 'function') {
-                    resolve(data);
-                } else {
-                    const res = successFn(data);
-                    if (res instanceof PromiseA) {
-                        res.then(resolve, reject);
-                    } else {
-                        resolve(res);
+        if (typeof then === 'function') {
+            let called = false
+            try {
+                then.call(result, x => {
+                    if (called) {
+                        return
                     }
-                }
-            }
-            const onRejected = (data) => {
-                if (!rejectFn || typeof rejectFn !== 'function') {
-                    reject(data);
-                } else {
-                    const rej = rejectFn(data);
-                    if (rej instanceof PromiseA) {
-                        rej.then(resolve, reject);
-                    } else {
-                        reject(rej);
+                    called = true
+                    transformToPromise(promise, x, resolve, reject)
+                },
+                y => {
+                    if (called) {
+                        return
                     }
-                }
-            }
-            if (status === 'FULLFILLED') {
-                onFullFilled();
-            } else if (status === 'REJECTED') {
-                onRejected();
-            } else {
-                this.resolveFnArr.push(onFullFilled || defaultFn);
-                this.rejectFnArr.push(onRejected || defaultFn);
-            }
-        })
-    }
-    static resolve (value) {
-        // 如果参数是MyPromise实例，直接返回这个实例
-        if (value instanceof PromiseA) return value;
-        return new PromiseA(resolve => resolve(value));
-    }
-    // 添加静态reject方法
-    static reject (value) {
-        return new PromiseA((resolve ,reject) => reject(value));
-    }
-    static race(promiseArr = []) {
-        return new Promise((resolve, reject) => {
-            promiseArr.forEach(item => {
-                Promise.resolve(item).then(data => {
-                    resolve(data)
-                }, error => {
-                    reject(error)
+                    called = true
+                    reject(y)
                 })
-            })
-        })
-    }
-    static all(promiseArr = []) {
-        let list = [];
-        return new PromiseA((resolve, reject) => {
-            promiseArr.forEach(item => {
-                item.then(data => {
-                    list.push(data);
-                    if (list.length === promiseArr.length) {
-                        resolve(list);
-                    }
-                }, error => {
-                    reject(error);
-                })
-            })
-        })
+            } catch (e) {
+                if (called) {
+                    return
+                }
+                reject(e)
+            }
+        } else {
+            resolve(result)
+        }
+    } else {
+        resolve(result)
     }
 }
 
+const onHandleResolve = v => v
 
-let a = new PromiseA((resolve, reject) => {
-    let n = Math.random() * 10
-    setTimeout(() => {
-        if (n < 5) {
-            resolve('ok')
-        } else {
-            reject('fail')
+const onHandleReject = v => v
+
+class PromisePollify {
+  constructor (executor) {
+    try {
+      executor(this.resolve, this.reject)
+    } catch (e) {
+      this.reject(e)
+    }
+  }
+  status = PENDING;
+
+  value = null;
+
+  reason = null;
+
+  onFullfilledCallback = []
+
+  onRejectedCallback = []
+
+  resolve = (value) => {
+    if (this.status === PENDING) {
+      this.status = FULFILLED
+      this.value = value
+      while (this.onFullfilledCallback.length) {
+        this.onFullfilledCallback.shift()(value)
+      }
+    }
+  }
+  reject = (reason) => {
+    if (this.status === PENDING) {
+      this.status = REJECTED
+      this.reason = reason
+      while (this.onRejectedCallback.length) {
+        this.onRejectedCallback.shift()(reason)
+      }
+    }
+  }
+  static resolve (value) {
+    if (value instanceof PromisePollify) {
+        return value
+    }
+    return new PromisePollify((resolve, reject) => {
+        resolve(value)
+    })
+  }
+  static reject (reason) {
+      if (reason instanceof PromisePollify) {
+          return reason
+      }
+      return new PromisePollify((resolve, reject) => {
+          reject(reason)
+      })
+  }
+  then = (onFulfilled = onHandleResolve, onRejected = onHandleReject) => {
+    const p = new PromisePollify((resolve, reject) => {
+    const onFulfilledMicroTask = () => queueMicrotask(() => {
+        try {
+            const result = onFulfilled(this.value)
+            transformToPromise(p, result, resolve, reject)
+        } catch (e) {
+            reject(e)
         }
-    }, 1000)
-})
-a.then(data => {
-    console.log(data, 'success')
-}, error => {
-    console.log(error, 'error')
-}).then(() => {
-    console.log(1111)
-});
-a.then(data => {
-    console.log(data, 'success')
-}, error => {
-    console.log(error, 'error')
-})
-let b = new PromiseA((resolve, reject) => {
-    let n = Math.random() * 10
-    setTimeout(() => {
-        if (n < 5) {
-            resolve('ok-b')
-        } else {
-            reject('fail-b')
+    })
+    const onRejectedMicroTask = () => queueMicrotask(() => {
+        try {
+            const result = onRejected(this.reason)
+            transformToPromise(p, result, resolve, reject)
+        } catch (e) {
+            reject(e)
         }
-    }, 500)
-})
-let c = new PromiseA((resolve, reject) => {
-    setTimeout(() => {
-        resolve('ok-c')
-    }, 1500)
-})
-let d = new PromiseA((resolve, reject) => {
-    setTimeout(() => {
-        resolve('ok-d')
-    }, 2500)
-})
-let e = new PromiseA((resolve, reject) => {
-    setTimeout(() => {
-        resolve('ok-e')
-    }, 3500)
-})
-PromiseA.resolve('resolve').then(data => console.log(data))
-PromiseA.reject('reject').then(data => console.log(data), data => console.log(data))
-
-PromiseA.race([
-    a,
-    b
-]).then(data => {
-    console.log(data, 'race')
-})
-PromiseA.all([
-    c,
-    d,
-    e
-]).then(data => {
-    console.log(data);
-}, error => {
-    console.log(error)
-})
-
-
-const start = Date.now()
-
-const pa = () => {
-    return (data) => new Promise((res, rej) => {
-        setTimeout(() => {
-            console.log(data, Date.now() - start, 1)
-            res(1)
-        }, 1000)
     })
+      if (this.status === FULFILLED) {
+        onFulfilledMicroTask()
+      }
+
+      if (this.status === REJECTED) {
+        onRejectedMicroTask()
+      }
+      if (this.status === PENDING) {
+        this.onFullfilledCallback.push(onFulfilledMicroTask)
+        this.onRejectedCallback.push(onFulfilledMicroTask)
+      }
+    })
+    return p
+  }
+  catch = (onCatch) => {
+    return this.then(onCatch)
+  }
 }
-
-const pb = () => {
-    return (data) => new Promise((res, rej) => {
-        setTimeout(() => {
-            console.log(data, Date.now() - start, 2)
-            res(2)
-        }, 1300)
-    })
-}
-
-const pc = () => {
-    return (data) => new Promise((res, rej) => {
-        setTimeout(() => {
-            console.log(data, Date.now() - start, 3)
-            res(3)
-        }, 2100)
-    })
-}
-
-const promiseQueue = [pa(), pb(), pc()]
-
-promiseQueue.reduce((t, p, i) => {
-    return t.then(data => {
-        if (i === promiseQueue.length - 1) {
-            return p(data).then(data => console.log(data))
-        }
-        return p(data)
-    })
-}, Promise.resolve(0))
