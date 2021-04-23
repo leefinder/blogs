@@ -104,7 +104,9 @@ class PromisePollify {
           reject(reason)
       })
   }
-  then = (onFulfilled = onHandleResolve, onRejected = onHandleReject) => {
+  then = (onFulfilled, onRejected) => {
+    onFulfilled = onFulfilled || onHandleResolve
+    onRejected = onRejected || onHandleReject
     const p = new PromisePollify((resolve, reject) => {
     const onFulfilledMicroTask = () => queueMicrotask(() => {
         try {
