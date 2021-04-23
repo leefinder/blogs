@@ -131,7 +131,7 @@ class PromisePollify {
       }
       if (this.status === PENDING) {
         this.onFullfilledCallback.push(onFulfilledMicroTask)
-        this.onRejectedCallback.push(onFulfilledMicroTask)
+        this.onRejectedCallback.push(onRejectedMicroTask)
       }
     })
     return p
