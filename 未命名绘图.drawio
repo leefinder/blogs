@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-17T04:33:42.659Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="-EmR79SM2QInJOe5jYh5" version="15.6.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-17T04:39:50.550Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="a5Z1nUkp9kfJBcwLvvvQ" version="15.6.8" type="github">
   <diagram name="Page-1" id="74e2e168-ea6b-b213-b513-2b3c1d86103e">
     <mxGraphModel dx="1186" dy="621" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
@@ -254,6 +254,17 @@
         </mxCell>
         <mxCell id="XQsBeovNMCF7Xu1CLmRe-8" value="jwt" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="XQsBeovNMCF7Xu1CLmRe-7">
           <mxGeometry x="40.25" y="80" width="10" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-144" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="XQsBeovNMCF7Xu1CLmRe-7">
+          <mxGeometry x="40.25" y="330" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-145" value="查询本地用户信息" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;entryX=1;entryY=0;" edge="1" target="XQsBeovNMCF7Xu1CLmRe-144" parent="XQsBeovNMCF7Xu1CLmRe-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="45.25" y="310" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="75.25" y="310" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="XQsBeovNMCF7Xu1CLmRe-9" value="/api" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;entryX=-0.025;entryY=-0.025;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" target="XQsBeovNMCF7Xu1CLmRe-8" parent="1" source="XQsBeovNMCF7Xu1CLmRe-4">
           <mxGeometry relative="1" as="geometry">
@@ -600,6 +611,18 @@
         </mxCell>
         <mxCell id="XQsBeovNMCF7Xu1CLmRe-143" value="+ create_time: varchar(255)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="XQsBeovNMCF7Xu1CLmRe-135">
           <mxGeometry y="208" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-147" value="/api&amp;nbsp; cookie Authorization" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;entryX=-0.025;entryY=-0.025;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="159.5" y="1210" as="sourcePoint" />
+            <mxPoint x="360" y="1210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-148" value="response" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;exitX=0;exitY=0.95;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="159.25" y="1250" as="targetPoint" />
+            <mxPoint x="360" y="1250" as="sourcePoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
