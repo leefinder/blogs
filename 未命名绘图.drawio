@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-17T03:28:00.773Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="eftS6BipISh1Q74mIOI2" version="15.6.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-17T03:53:19.536Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="GWETrYIiGxXgXe-OTO1g" version="15.6.8" type="github">
   <diagram name="Page-1" id="74e2e168-ea6b-b213-b513-2b3c1d86103e">
     <mxGraphModel dx="1186" dy="621" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
@@ -300,6 +300,63 @@
             <mxPoint x="360" y="1160" as="sourcePoint" />
             <mxPoint x="280" y="1160" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-23" target="XQsBeovNMCF7Xu1CLmRe-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-23" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1435" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-26" target="XQsBeovNMCF7Xu1CLmRe-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-26" target="XQsBeovNMCF7Xu1CLmRe-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-26" target="XQsBeovNMCF7Xu1CLmRe-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-26" value="Nestjs服务" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="1440" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-27" target="XQsBeovNMCF7Xu1CLmRe-34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="1395" />
+              <mxPoint x="580" y="1465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-27" value="hr接口" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1370" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-28" target="XQsBeovNMCF7Xu1CLmRe-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-28" value="财务合同接口" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1440" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="XQsBeovNMCF7Xu1CLmRe-29" target="XQsBeovNMCF7Xu1CLmRe-34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="1535" />
+              <mxPoint x="580" y="1465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-29" value="启信宝接口" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1510" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-34" value="mysql" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="730" y="1435" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-42" value="@nestjs/bull 队列" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="1440" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="XQsBeovNMCF7Xu1CLmRe-43" value="鉴权" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1440" width="40" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
