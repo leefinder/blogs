@@ -1,5 +1,5 @@
 // [参考链接](https://segmentfault.com/a/1190000019402237?utm_source=tag-newest)
-
+// [参考链接](https://mp.weixin.qq.com/s/jF0ZEGM9BRQgyKPZ9W9MpA)
 namespace MYPROJECT {
     export type PersonKeysAll = {
         name: string,
